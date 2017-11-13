@@ -1,9 +1,10 @@
 #encode: utf8
 
-def factor(x):
+# get factors exclude 1 and self
+def factor2(x, num=0):
     factors = []
-    i = 1
-    while i*i <= x:
+    i = 2
+    while i*i <= x and len(factors) < num:
         if x % i == 0:
             factors.append(i)
             next = x/i
@@ -13,7 +14,7 @@ def factor(x):
     return factors
 
 if __name__ == '__main__':
-    factors = factor(128)
+    factors = factor2(128,20)
     print factors
     sum = 0
     for f in factors:
