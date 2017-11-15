@@ -8,12 +8,13 @@
 	</properties>
 	
 	<groupId>math.fermat</groupId>
-	<artifactId>math.fermat.perfect-number</artifactId>
+	<artifactId>math.fermat</artifactId>
 	<version>1.0</version>
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>perfect-number-caculator</module>
+		<module>perfect-number</module>
+		<module>fermat-webapp</module>
 	</modules>
 
 	<dependencies>
