@@ -350,6 +350,24 @@ public class ApiUtils
         return resMsg;
     }
 
+    public static ResponseMessage consumeMessages(String qId, String qGroupId, int msgLimit,
+            String projectId, String dmsUrl, String serviceName, String region, String ak, String sk, String tag) {
+        ResponseMessage resMsg;
+
+        String url = dmsUrl + projectId + Constants.SYMBOL_SLASH + Constants.DMS_SERVICE_QUEUES
+                + Constants.SYMBOL_SLASH + qId + Constants.SYMBOL_SLASH + Constants.DMS_SERVICE_GROUPS
+                + Constants.SYMBOL_SLASH + qGroupId + Constants.SYMBOL_SLASH + Constants.DMS_SERVICE_MESSAGES
+                + Constants.SYMBOL_QUES_MARK + Constants.DMS_SERVICE_LIMIT + Constants.SYMBOL_EQUAL + msgLimit + "&tag=" + tag;
+        resMsg = AccessServiceUtils.get(serviceName, region, ak, sk, url, projectId);
+        if (!resMsg.isSuccess())
+        {
+            System.out.println("Consume message fail: " + resMsg.getStatusCode());
+        }
+        return resMsg;
+    	
+    }
+
+    
     /**
      * Acknowledge The Consumed Message
      * POST /v1.0/{project_id}/queues/{queue_id}/groups/{consumer_group_id}/ack

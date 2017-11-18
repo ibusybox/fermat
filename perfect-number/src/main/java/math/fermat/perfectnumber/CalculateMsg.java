@@ -1,6 +1,6 @@
 package math.fermat.perfectnumber;
 
-public class PerfectNumberMessage {
+public class CalculateMsg {
 	private long number;
 	private Long[] factors;
 	private boolean moreFactors;

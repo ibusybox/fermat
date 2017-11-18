@@ -1,6 +1,6 @@
 package math.fermat.perfectnumber;
 
-public class PerfectNumberResult {
+public class ResultMsg {
 	private long n;
 	private String clientId;
 	private long[] factors;
