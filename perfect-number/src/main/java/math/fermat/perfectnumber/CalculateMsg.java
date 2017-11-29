@@ -1,20 +1,22 @@
 package math.fermat.perfectnumber;
 
+import java.math.BigDecimal;
+
 public class CalculateMsg {
-	private long number;
-	private Long[] factors;
+	private BigDecimal number;
+	private BigDecimal[] factors;
 	private boolean moreFactors;
-	private String clientId;
-	public long getNumber() {
+	private String calcId;
+	public BigDecimal getNumber() {
 		return number;
 	}
-	public void setNumber(long number) {
+	public void setNumber(BigDecimal number) {
 		this.number = number;
 	}
-	public Long[] getFactors() {
+	public BigDecimal[] getFactors() {
 		return factors;
 	}
-	public void setFactors(Long[] factors) {
+	public void setFactors(BigDecimal[] factors) {
 		this.factors = factors;
 	}
 	public boolean isMoreFactors() {
@@ -23,10 +25,10 @@ public class CalculateMsg {
 	public void setMoreFactors(boolean moreFactors) {
 		this.moreFactors = moreFactors;
 	}
-	public String getClientId() {
-		return clientId;
+	public String getCalcId() {
+		return calcId;
 	}
-	public void setClientId(String clientId) {
-		this.clientId = clientId;
+	public void setCalcId(String clientId) {
+		this.calcId = clientId;
 	}
 }

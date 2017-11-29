@@ -3,12 +3,20 @@ package math.fermat.perfectnumber;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
-public class CalculateMsgWrapper {
-	private CalculateMsg body;
+public class CalculateMsgWrapper2 {
+	private CalculateMsg Body;
+
+	/**
+	 * @return the body
+	 */
 	public CalculateMsg getBody() {
-		return body;
+		return Body;
 	}
+
+	/**
+	 * @param body the body to set
+	 */
 	public void setBody(CalculateMsg body) {
-		this.body = body;
+		Body = body;
 	}
 }
