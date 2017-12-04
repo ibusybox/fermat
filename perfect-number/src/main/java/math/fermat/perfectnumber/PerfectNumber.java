@@ -21,6 +21,7 @@ public class PerfectNumber {
 	 * @param n specified number
 	 */
 	public Response kickoff(PerfectNumberKickoff kickoff, Context context) {
+		String mysqlString = context.getUserData("mysqlString");
 		String dmsEndpoint = context.getUserData("dmsEndpoint");
 		String region = context.getUserData("region");
 		String queueId = context.getUserData("calcQueueId");
@@ -76,6 +77,27 @@ public class PerfectNumber {
 	}
 
 
+	public Response factorTest(CalculateMsgWrapperOut message, Context context) {
+		String dmsEndpoint = context.getUserData("dmsEndpoint");
+		String region = context.getUserData("region");
+		String resultQueueId = context.getUserData("resultQueueId");
+		String calcQueueId = context.getUserData("calcQueueId");
+		String serviceName = context.getUserData("serviceName");
+		String projectId = context.getUserData("projectId");
+		String ak = context.getUserData("ak");
+		String sk = context.getUserData("sk");
+		
+		RuntimeLogger logger = context.getLogger();
+		StringBuffer sb = new StringBuffer();
+		sb.append("dmsEndpoint=").append(dmsEndpoint).append("\nregion=").append(region).append("\nresultQuqueId=").append(resultQueueId)
+		.append("\ncalcQueueId=").append(calcQueueId).append("\nserviceName=").append(serviceName).append("\nprojectId=").append(projectId).append("\nak=")
+		.append(ak).append("\nsk=").append(sk);
+		logger.log(sb.toString());
+		Response response = new Response();
+		response.setErrorCode(0);
+		return response;
+	}
+	
 	/**
 	 * 计算队列触发执行，分解因数
 	 * @param message
@@ -175,28 +197,39 @@ public class PerfectNumber {
 	private List<BigDecimal> factor2(BigDecimal x, int segment, RuntimeLogger logger) {
 		List<BigDecimal> factors = new ArrayList<BigDecimal>();
 		BigDecimal i = new BigDecimal("1");
+		BigDecimal next = x;
 		for (; i.multiply(i).compareTo(x) < 0 && factors.size()<segment; i = i.add(new BigDecimal("1"))) {
-			if (x.remainder(i).intValue() == 0) {
-				if (i.compareTo(x) < 0) {
+			if (next.remainder(i).intValue() == 0) {
+				if (i.compareTo(next) < 0) {
 					factors.add(i);
 				}
-				BigDecimal next = x.divide(i);
-				if (next.compareTo(i) > 0 && next.compareTo(x) < 0) {
-					factors.add(next);
-				}
+				System.out.println("x = " + x + ", i = " + i);
+				next = next.divide(i, 0);
 			}
 		}
+		if (next.compareTo(i) > 0 && next.compareTo(x) < 0) {
+			factors.add(next);
+		}
+
 		return factors;
 	}
 
 	public static void main(String args[]) {
+//		BigDecimal next = new BigDecimal("4969723520");
 		BigDecimal start = new BigDecimal("2658455991569831744654692615953842176");
-		List<BigDecimal> fs = new PerfectNumber().factor2(start, 100, null);
+//		BigDecimal start = new BigDecimal("8128");
+//		BigDecimal dd = start.divide(next, 0);
+//		System.out.println(dd);
+		
+		List<BigDecimal> fs = new PerfectNumber().factor2(start, 10, null);
+		BigDecimal multiply = new BigDecimal(1);
 		BigDecimal sum = new BigDecimal(0);
 		for (BigDecimal d : fs) {
 			System.out.println(d);
+			multiply = multiply.multiply(d);
 			sum = sum.add(d);
 		}
-		System.out.println(sum);
+		System.out.println("sum = " + sum);
+		System.out.println("multiply = " + multiply);
 	}
 }

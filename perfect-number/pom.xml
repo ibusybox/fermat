@@ -38,6 +38,64 @@
 		          <target>1.8</target>
 		        </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.10</version>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>target/lib</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>./lib/</classpathPrefix>
+                            <mainClass>math.fermat.perfectnumber.PerfectNumber</mainClass>
+                        </manifest>
+                        <manifestEntries>
+                            <Class-Path>.</Class-Path>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <executions>
+                    <execution>
+                        <id>make-vm-zip</id>
+                        <phase>package</phase>
+                        <configuration>
+                        <target>
+                            <zip destfile="target/${build.finalName}.zip">
+                            <!-- zipfileset dir="target/lib" prefix="lib" /-->
+                            <zipfileset dir="target/lib" includes="*.jar" />
+                            <zipfileset dir="target" includes="*.jar" />
+                            <zipfileset dir="." includes="start.sh" />
+                            </zip>
+                        </target>
+                        </configuration>
+                            <goals>
+                                <goal>run</goal>
+                            </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
 </project>
